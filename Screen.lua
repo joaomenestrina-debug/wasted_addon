@@ -118,7 +118,7 @@ function S:HeadY()
         if ok and type(z) == "number" then zoom = z end
     end
     zoom = math.max(3, zoom or 15)
-    return math.floor(10 + 500 / zoom + 0.5)
+    return math.floor(26 + 500 / zoom + 0.5)   -- 26: the tail ends above the name over the character, not on it
 end
 
 function S:SetPos(kind, x, y)

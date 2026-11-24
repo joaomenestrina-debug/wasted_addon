@@ -201,9 +201,9 @@ class Wasted(unittest.TestCase):
         st = self.state()
         self.assertEqual(st.bubble, "Continua...")                                # the balloon, not the caption
         self.assertFalse(st.sign)
-        self.assertEqual((st.kind, st.x, st.y), ("bubble", 0, 43))                      # over the head, by the zoom of the camera
+        self.assertEqual((st.kind, st.x, st.y), ("bubble", 0, 59))                      # over the head, by the zoom of the camera
         self.lua.execute("GetCameraZoom = function() return 5 end; Advance(0.2)")
-        self.assertEqual(self.lua.eval("NS.Screen:HeadY()"), 110)                 # closer: the head is taller on the screen
+        self.assertEqual(self.lua.eval("NS.Screen:HeadY()"), 126)                 # closer: the head is taller on the screen
         self.lua.execute("Advance(8)")
         self.assertFalse(self.state().bubble)                                     # it goes by itself
         self.lua.execute("NS.Screen:SetPos('bubble', 40, 200); NS.Quips:Say('afk', nil, true); Advance(1)")
