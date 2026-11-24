@@ -183,7 +183,7 @@ local function BuildSounds(win, CW)
     s.fontLine:SetPoint("TOPLEFT", 16, y - 2)
     function s:Refresh()
         local font = KW.Screen.font
-        self.fontLine:SetText(T("fontLine", font and ("Fonts/" .. font) or T("fontGame")))
+        self.fontLine:SetText(T("fontLine", font or T("fontGame")))
         for _, row in ipairs(self.rows) do
             local state = KW.found[row.file]
             if state == nil then

@@ -15,7 +15,8 @@ answers the game with the memes everybody knows.
   (*"This is fine."*), three deaths in a row, a rare item (*"Stonks."*), a dungeon, the hearthstone, going AFK and more.
   Only you see them: nothing is sent to the chat.
 
-Everything has a sound of its own (original ones, made for the addon), and every sign can be switched off.
+Everything has a sound of its own (original ones, made for the addon), the signs have a big bold font of their own,
+and every sign can be switched off.
 
 ## The window
 
@@ -39,6 +40,8 @@ game after adding files. Only use sounds and fonts you have the right to use.
 - English and Brazilian Portuguese (chosen in the window, or by the game's language).
 - Nothing in the game is changed: the addon only shows signs and plays sounds.
 - The gray screen sits under the windows of the game, so you can still click to release the spirit.
+- The font of the signs is [Bowlby One](https://fonts.google.com/specimen/Bowlby+One) by Vernon Adams, under the SIL
+  Open Font License (`Media/Fonts/OFL.txt`).
 - Saved data: `KorumWastedDB`. Commands: `/wasted`, and `/wasted death | busted | graveyard | mission | failed | level` to try one.
 
 Korum Wasted is a fan project and is not affiliated with or endorsed by any game publisher.

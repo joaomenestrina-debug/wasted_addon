@@ -64,6 +64,30 @@ class Wasted(unittest.TestCase):
         self.lua.execute("Fire('PLAYER_UNGHOST'); Advance(2)")
         self.assertFalse(self.state().gray)
 
+    def test_the_signs_use_your_font_then_the_addons_then_the_games(self):
+        # the game takes a font only when its file exists; GetFont tells which one it took
+        self.lua.execute("""
+            FONT_FILES = {}
+            local FS = getmetatable(NewFrame())
+            function FS:SetFont(path, size)
+                local name = path:match("[^\\\\]+$")
+                if path:find("FRIZQT") or FONT_FILES[name] then self._font, self._size = path, size; return true end
+                return false
+            end
+            function FS:GetFont() return self._font, self._size end
+        """)
+        cases = [({}, None), ({"BowlbyOne.ttf": True}, "Bowlby One"),
+                 ({"BowlbyOne.ttf": True, "sign.otf": True}, "Fonts/sign.otf")]
+        for files, expected in cases:
+            self.lua.execute("FONT_FILES = {}")
+            for name in files:
+                self.lua.execute(f"FONT_FILES['{name}'] = true")
+            self.lua.execute("NS.Screen:Wasted(true); Advance(1)")
+            self.assertEqual(self.lua.eval("NS.Screen.font"), expected)
+            self.lua.execute("Advance(12)")
+        self.lua.execute("FONT_FILES = {['BowlbyOne.ttf'] = true}; NS.Screen:Wasted(true); Advance(1)")
+        self.assertLess(self.lua.eval("select(2, KorumWastedSign.text:GetFont())") or 0, 92)   # wider letters, smaller size
+
     def test_your_sound_file_plays_when_it_is_there(self):
         self.lua.execute("HAVE_FILES = true; Fire('QUEST_TURNED_IN', 1, 100, 50); Advance(1)")
         played = list(self.lua.eval("PLAYED").values())

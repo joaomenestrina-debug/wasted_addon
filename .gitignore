@@ -7,4 +7,4 @@ arquivo/
 Sounds/*.ogg
 Sounds/*.mp3
 !Sounds/default_*.ogg
-Fonts/
+/Fonts/

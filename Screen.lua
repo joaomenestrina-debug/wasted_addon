@@ -22,15 +22,26 @@ local GAME_FONT = "Fonts\\FRIZQT__.TTF"
 local gray, band, sign
 local anim                 -- {t, steps...}: what is under way
 
--- the player's own font for the signs when there is one in Fonts/ (sign.ttf or sign.otf), else the game's
+-- the font of the signs: the player's own when there is one in Fonts/ (sign.ttf or sign.otf), else the addon's own
+-- (Bowlby One, SIL Open Font License, Media/Fonts/OFL.txt), else the game's. Bowlby One is wide: a smaller size.
+local ADDON_FONT = {file = "Media\\Fonts\\BowlbyOne.ttf", name = "Bowlby One", scale = 0.78}
+
+local function TryFont(fs, path, size, flags)
+    local ok, set = pcall(fs.SetFont, fs, KW.DIR .. path, size, flags)
+    local now = ok and set ~= false and fs:GetFont()
+    return type(now) == "string" and now:lower():find(path:lower():match("[^\\]+$"), 1, true) ~= nil
+end
+
 local function SetFont(fs, size)
     for _, ext in ipairs({".ttf", ".otf"}) do
-        local ok, set = pcall(fs.SetFont, fs, KW.DIR .. "Fonts\\sign" .. ext, size, "OUTLINE")
-        local now = ok and set ~= false and fs:GetFont()
-        if type(now) == "string" and now:lower():find("sign" .. ext, 1, true) then
-            S.font = "sign" .. ext
+        if TryFont(fs, "Fonts\\sign" .. ext, size, "OUTLINE") then
+            S.font = "Fonts/sign" .. ext
             return
         end
+    end
+    if TryFont(fs, ADDON_FONT.file, math.floor(size * ADDON_FONT.scale + 0.5), "OUTLINE") then
+        S.font = ADDON_FONT.name
+        return
     end
     S.font = nil
     fs:SetFont(GAME_FONT, size, "THICKOUTLINE")

@@ -34,7 +34,12 @@ def ignored():
     return names
 
 
+LICENSES = {"Media/Fonts/OFL.txt"}     # the license of a font has to travel with the font
+
+
 def left_out(rel, skip, code):
+    if rel.as_posix() in LICENSES:
+        return False
     if any(part.startswith(".") for part in rel.parts) or rel.suffix.lower() in DEV_SUFFIXES:
         return True
     if any(rel.as_posix() == s or rel.as_posix().startswith(s.rstrip("/") + "/") for s in skip):

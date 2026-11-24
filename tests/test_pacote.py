@@ -13,10 +13,12 @@ class Pacote(unittest.TestCase):
         names = {p.as_posix() for p in keep}
         for p in names:
             self.assertFalse(p.startswith(("tests/", "ferramentas/", ".github/", "arquivo/")), p)
-            self.assertNotRegex(p, r"\.(md|txt|py|yml)$")
+            if p not in empacotar.LICENSES:
+                self.assertNotRegex(p, r"\.(md|txt|py|yml)$")
         self.assertNotIn("LICENSE", names)
         self.assertNotIn(".pkgmeta", names)
-        for needed in ("KorumWasted.toc", "Core.lua", "Media/logo.tga", "Media/tail.tga", "Sounds/default_wasted.ogg"):
+        for needed in ("KorumWasted.toc", "Core.lua", "Media/logo.tga", "Media/tail.tga", "Sounds/default_wasted.ogg",
+                       "Media/Fonts/BowlbyOne.ttf", "Media/Fonts/OFL.txt"):
             self.assertIn(needed, names)
 
     def test_toc_files_are_shipped(self):
