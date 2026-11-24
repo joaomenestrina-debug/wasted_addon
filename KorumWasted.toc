@@ -1,0 +1,16 @@
+## Interface: 16001
+## Title: Korum Wasted
+## IconTexture: Interface\AddOns\KorumWasted\Media\logo
+## Notes: Your character knows all the memes. /wasted
+## Notes-ptBR: O seu personagem sabe todos os memes. /wasted
+## Author: Korum
+## Version: 1.0.0
+## SavedVariables: KorumWastedDB
+## Category: Korum
+
+Core.lua
+Locales.lua
+Kit.lua
+Screen.lua
+Quips.lua
+Options.lua

@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+arquivo/
+
+# the player's own sounds and font: never in git (only the addon's own default_*.ogg are)
+Sounds/*.ogg
+Sounds/*.mp3
+!Sounds/default_*.ogg
+Fonts/

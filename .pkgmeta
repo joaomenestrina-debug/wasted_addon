@@ -1,0 +1,19 @@
+package-as: KorumWasted
+
+# only what the addon uses in the game goes in the zip the players download: the code, the .toc, Media/ and the sounds.
+# Everything of the making of it stays out (tests/test_pacote.py checks it). Files starting with a dot are left out by
+# the packager itself. The manual changelog below is still read from the repository.
+ignore:
+  - tests
+  - ferramentas
+  - arquivo
+  - README.md
+  - CHANGELOG.md
+  - LICENSE
+  - Sounds/README.txt
+  - Media/Icons/time.tga
+
+# the "what's new" of each file on CurseForge comes from this file, not from the commit messages
+manual-changelog:
+  filename: CHANGELOG.md
+  markup-type: markdown
