@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.2
+- Many more quips: five to seven lines for every moment, classic memes and new ones ("Skill issue.", "-1000 aura.", "We're so back.", "Let him cook.", "Calma, calabreso!", "O pai tá on."...).
+
 ## 1.0.1
 - The signs have a big bold font of their own (Bowlby One, SIL Open Font License); a font of yours in the Fonts folder takes its place.
 - The speech balloon sits a little higher, above your character's name.
