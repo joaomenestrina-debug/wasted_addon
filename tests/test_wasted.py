@@ -167,6 +167,27 @@ class Wasted(unittest.TestCase):
         self.lua.execute("NS:Failed('Abandonada'); Advance(1)")
         self.assertEqual(self.state().sub, "Abandonada")
 
+    def test_retail_abandon_takes_the_name_from_the_quest_id_and_toy_hearthstones_count(self):
+        self.lua.execute("""
+            hooksecurefunc = function(t, k, fn)
+                if type(t) == 'string' then t, k, fn = _G, t, k end
+                local orig = t[k]
+                t[k] = function(...) local r = orig(...); fn(...); return r end
+            end
+            local marked
+            C_QuestLog = {SetAbandonQuest = function() marked = 77 end, GetAbandonQuest = function() return marked or 0 end,
+                          AbandonQuest = function() marked = nil end, GetTitleForQuestID = function(id) return id == 77 and 'A Caçada' or nil end}
+            GetAbandonQuestName = nil
+            Fire('PLAYER_LOGIN')
+            C_QuestLog.SetAbandonQuest(); C_QuestLog.AbandonQuest(); Advance(1)""")
+        self.assertEqual((self.state().text, self.state().sub), ("MISSÃO FRACASSADA!", "A Caçada"))
+        self.lua.execute("""Advance(8); NS.db.quipStyle = 'caption'; NS.Random = function(n) return 1 end
+            C_Spell = {GetSpellInfo = function(id) return {name = id == 8690 and 'Pedra de Regresso' or (id == 9999 and 'Pedra de Regresso do Viajante' or 'Bola de Fogo')} end}
+            Fire('UNIT_SPELLCAST_START', 'player', 'x', 133); Advance(1)""")
+        self.assertFalse(self.state().sign)                                       # not a hearthstone
+        self.lua.execute("Fire('UNIT_SPELLCAST_START', 'player', 'x', 9999); Advance(1)")
+        self.assertEqual(self.state().text, "Fui.")
+
     def test_busted_and_failed_play_the_death_sound_when_they_have_no_file(self):
         self.lua.execute("PlaySoundFile = function(path) PLAYED[#PLAYED + 1] = path; return path:find('wasted') ~= nil end")
         self.assertEqual(self.lua.eval("NS:Play('failed')"), "file")

@@ -289,9 +289,25 @@ KW:On("ZONE_CHANGED_NEW_AREA", function()
 end)
 
 -- the hearthstone
-local HEARTH = {[8690] = true}
+-- the stone itself, the shaman's Astral Recall, the Dalaran and Garrison stones; the toys of Retail are told by the name
+local HEARTH = {[8690] = true, [556] = true, [222695] = true, [171253] = true}
+local hearthName
+local function IsHearth(spell)
+    if HEARTH[spell] then return true end
+    if hearthName == nil then
+        local info = C_Spell and C_Spell.GetSpellInfo and Safe(C_Spell.GetSpellInfo, 8690)
+        hearthName = (type(info) == "table" and info.name) or (GetSpellInfo and Safe(GetSpellInfo, 8690)) or false
+    end
+    if not hearthName then return false end
+    local info = C_Spell and C_Spell.GetSpellInfo and Safe(C_Spell.GetSpellInfo, spell)
+    local name = (type(info) == "table" and info.name) or (GetSpellInfo and Safe(GetSpellInfo, spell))
+    return type(name) == "string" and name:find(hearthName, 1, true) ~= nil
+end
 KW:On("UNIT_SPELLCAST_START", function(_, unit, _, spell)
-    if unit == "player" and type(spell) == "number" and HEARTH[spell] then Q:Say("hearth") end
+    if unit == "player" and type(spell) == "number" then
+        local ok, yes = pcall(IsHearth, spell)
+        if ok and yes then Q:Say("hearth") end
+    end
 end)
 
 KW:On("PLAYER_MOUNT_DISPLAY_CHANGED", function()

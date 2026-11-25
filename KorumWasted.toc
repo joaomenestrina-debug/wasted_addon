@@ -1,4 +1,4 @@
-## Interface: 16001
+## Interface: 16001, 50504, 120100, 120105
 ## Title: Korum Wasted
 ## IconTexture: Interface\AddOns\KorumWasted\Media\logo
 ## Notes: Your character knows all the memes. /wasted

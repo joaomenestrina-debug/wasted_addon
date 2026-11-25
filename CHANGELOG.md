@@ -1,6 +1,8 @@
 # Changelog
 
 ## 1.0.2
+- Now for Retail and Mists of Pandaria Classic too, besides Forever.
+- An abandoned quest shows its name on the Retail client as well; the hearthstone toys of Retail count as the hearthstone.
 - Many more quips: five to seven lines for every moment, classic memes and new ones ("Skill issue.", "-1000 aura.", "We're so back.", "Let him cook.", "Calma, calabreso!", "O pai tá on."...).
 
 ## 1.0.1

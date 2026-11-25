@@ -205,12 +205,26 @@ end
 
 KW:On("PLAYER_LOGIN", function()
     if not hooksecurefunc then return end
+    -- Retail and the newer clients mark the quest first (C_QuestLog.SetAbandonQuest) and keep only its id: the name comes
+    -- from the id, read when it is marked (after the abandon it may be gone)
+    local abandonID
     local function Abandoned()
         local name
-        if _G.GetAbandonQuestName then local ok, n = pcall(GetAbandonQuestName); if ok then name = n end end
+        if _G.GetAbandonQuestName then local ok, n = pcall(GetAbandonQuestName); if ok and n ~= "" then name = n end end
+        if not name and abandonID and _G.C_QuestLog and C_QuestLog.GetTitleForQuestID then
+            local ok, n = pcall(C_QuestLog.GetTitleForQuestID, abandonID)
+            if ok and type(n) == "string" and n ~= "" then name = n end
+        end
+        abandonID = nil
         KW:Failed(name)
     end
     if _G.AbandonQuest then hooksecurefunc("AbandonQuest", Abandoned) end
+    if _G.C_QuestLog and C_QuestLog.SetAbandonQuest and C_QuestLog.GetAbandonQuest then
+        hooksecurefunc(C_QuestLog, "SetAbandonQuest", function()
+            local ok, id = pcall(C_QuestLog.GetAbandonQuest)
+            if ok and type(id) == "number" and id > 0 then abandonID = id end
+        end)
+    end
     if _G.C_QuestLog and C_QuestLog.AbandonQuest then hooksecurefunc(C_QuestLog, "AbandonQuest", Abandoned) end
 end)
 
